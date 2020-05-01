@@ -1,0 +1,83 @@
+type Query {
+  node(id: ID!): Node
+}
+
+type Mutation {
+  noop(input: NoopInput): NoopPayload
+}
+
+interface Node {
+  id: ID!
+}
+
+input NoopInput {
+  clientMutationId: String
+}
+
+type NoopPayload {
+  clientMutationId: String
+}
+
+enum TaskStatus {
+  ACTIVE
+  COMPLETED
+}
+
+type Task implements Node {
+  id: ID!
+  name: String!
+  status: TaskStatus!
+  order: Int!
+}
+
+extend type Query {
+  tasks(first: Int, after: String, last: Int, before: String): TaskConnection
+}
+
+type TaskConnection {
+  pageInfo: PageInfo
+  edges: [TaskEdge]
+}
+type PageInfo {
+  hasPreviousPage: Boolean!
+  startCursor: String
+  hasNextPage: Boolean!
+  endCursor: String
+}
+type TaskEdge {
+  cursor: String!
+  node: Task
+}
+
+extend type Mutation {
+  addTasks(input: AddTasksInput!): TaskPayload
+  updateTasks(input: UpdateTasksInput!): TaskPayload
+  removeTasks(input: RemoveTasksInput!): TaskPayload
+}
+
+input TaskInput {
+  id: ID!
+  name: String!
+  status: TaskStatus!
+  order: Int!
+}
+
+input AddTasksInput {
+  clientMutationId: String
+  tasks: [TaskInput]
+}
+
+input UpdateTasksInput {
+  clientMutationId: String
+  tasks: [TaskInput]
+}
+
+input RemoveTasksInput {
+  clientMutationId: String
+  ids: [ID]
+}
+
+type TaskPayload {
+  clientMutationId: String
+  tasks: [Task]
+}
