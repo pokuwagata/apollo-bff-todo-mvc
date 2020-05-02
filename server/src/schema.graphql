@@ -31,12 +31,12 @@ type Task implements Node {
 }
 
 extend type Query {
-  tasks(first: Int, after: String, last: Int, before: String): TaskConnection
+  tasks(first: Int, after: String, last: Int, before: String): TaskConnection!
 }
 
 type TaskConnection {
-  pageInfo: PageInfo
-  edges: [TaskEdge]
+  pageInfo: PageInfo!
+  edges: [TaskEdge!]!
 }
 type PageInfo {
   hasPreviousPage: Boolean!
@@ -46,7 +46,7 @@ type PageInfo {
 }
 type TaskEdge {
   cursor: String!
-  node: Task
+  node: Task!
 }
 
 extend type Mutation {

@@ -1,3 +1,21 @@
 extend type Query {
-  hoge: Task
+  state: State!
+}
+
+extend type Mutation {
+  addTask(input: AddTaskInput!): AddTaskPayload
+}
+
+input AddTaskInput {
+  clientMutationId: String!
+  text: String!
+}
+
+type AddTaskPayload {
+  clientMutationId: String
+  task: Task!
+}
+
+type State {
+  tasks: [Task!]!
 }

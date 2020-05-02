@@ -1,0 +1,10 @@
+overwrite: true
+schema: ["./client-schema.graphql","../server/src/schema.graphql"]
+documents: null
+generates:
+  src/generated/schema.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+    config:
+      useIndexSignature: true

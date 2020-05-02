@@ -3,15 +3,16 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { TaskStatus } from "./../../../__generated__/globalTypes";
+
 // ====================================================
-// GraphQL query operation: hoge
+// GraphQL fragment: task
 // ====================================================
 
-export interface hoge_hoge {
+export interface task {
   __typename: "Task";
   id: string;
-}
-
-export interface hoge {
-  hoge: hoge_hoge | null;
+  name: string;
+  status: TaskStatus;
+  order: number;
 }
