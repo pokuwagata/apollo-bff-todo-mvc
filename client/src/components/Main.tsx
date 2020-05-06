@@ -5,7 +5,7 @@ import { AddTask, AddTaskVariables } from "./__generated__/AddTask";
 import { TaskStatus } from "../../__generated__/globalTypes";
 import { Tasks } from "./__generated__/Tasks";
 
-const taskFragment = gql`
+export const taskFragment = gql`
   fragment task on Task {
     id
     name
@@ -29,7 +29,9 @@ const ADD_TASK = gql`
   mutation AddTask($input: AddTaskInput!) {
     addTask(input: $input) @client {
       clientMutationId
-      ...task
+      task {
+        ...task
+      }
     }
   }
   ${taskFragment}
@@ -74,10 +76,10 @@ export const Main: React.FC = () => {
           return (
             <li key={task.id}>
               <div style={{ display: "flex", width: "30%" }}>
-                <div>
+                {/* <div>
                   <input type="checkbox" id="1"></input>
                   <label htmlFor="1">{task.name}</label>
-                </div>
+                </div> */}
                 <div style={{ marginLeft: "auto" }}>
                   <button>☓</button>
                 </div>

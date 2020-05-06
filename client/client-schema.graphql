@@ -1,9 +1,11 @@
 extend type Query {
   state: State!
+  task(id: String!): Task!
 }
 
 extend type Mutation {
   addTask(input: AddTaskInput!): AddTaskPayload
+  updateTask(input: UpdateTaskInput!): UpdateTaskPayload
 }
 
 input AddTaskInput {
@@ -12,6 +14,16 @@ input AddTaskInput {
 }
 
 type AddTaskPayload {
+  clientMutationId: String
+  task: Task!
+}
+
+input UpdateTaskInput {
+  clientMutationId: String!
+  task: Task!
+}
+
+type UpdateTaskPayload {
   clientMutationId: String
   task: Task!
 }

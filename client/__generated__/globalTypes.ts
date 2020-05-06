@@ -17,6 +17,11 @@ export interface AddTaskInput {
   text: string;
 }
 
+export interface UpdateTaskInput {
+  clientMutationId: string;
+  task: Task;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

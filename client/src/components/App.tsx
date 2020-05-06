@@ -6,10 +6,11 @@ import { onError } from "apollo-link-error";
 import { HttpLink } from "apollo-link-http";
 import gql from "graphql-tag";
 import * as React from "react";
-import { Main } from "./Main";
+import { Main, taskFragment } from "./Main";
 import {
   TaskStatus,
   AddTaskInput,
+  UpdateTaskInput,
 } from "../../__generated__/globalTypes";
 import { ApolloCache } from "apollo-cache";
 import { task } from "./__generated__/task";
@@ -27,6 +28,15 @@ const STATE = gql`
     }
   }
 `;
+
+const get_task = gql`
+  query GetTask($id: String!) {
+    task(id: $id) {
+      ...task
+    }
+  }
+  ${taskFragment}
+`
 
 const client = new ApolloClient({
   link: ApolloLink.from([
@@ -57,10 +67,8 @@ const client = new ApolloClient({
         { input }: { input: AddTaskInput },
         { cache }: { cache: ApolloCache<NormalizedCacheObject> }
       ) => {
-        console.log(input);
-
         const prev = cache.readQuery<AppState>({ query: STATE })!.state;
-        const num = prev.tasks.length++; // NOTE: cache の初期値を与えているので非null
+        const num = prev.tasks.length + 1; // NOTE: cache の初期値を与えているので非null
 
         const task: task = {
           __typename: "Task",
@@ -76,12 +84,18 @@ const client = new ApolloClient({
             state: {
               __typename: "State",
               tasks: [
-                ...prev.tasks, task
+                ...prev.tasks,
+                task
               ],
             },
           },
         });
       },
+      updateTask: (
+        _,
+        { input }: { input: UpdateTaskInput },
+        { cache }: { cache: ApolloCache<NormalizedCacheObject> }
+      ) => {}
     },
   },
   defaultOptions: {
